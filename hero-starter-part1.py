@@ -12,7 +12,7 @@ from lib.zombie import Zombie
 
 cloud = Hero(100, 30, 'Cloud')
 goblin = Goblin(40, 10)
-zombie = Zombie(50, 10, 'Zombie')
+zombie = Zombie(100, 10, 'Zombie')
 
 def main():
     # hero_health = cloud.health
@@ -40,6 +40,7 @@ def main():
         elif user_input == "2":
             cloud.attack(cloud, zombie)
             zombie.immortality()
+            zombie.attack(zombie, cloud)
         elif user_input == "3":
             print("Goodbye.")
             break
