@@ -8,10 +8,11 @@ In this simple RPG game, the hero fights the goblin. He has the options to:
 """
 from lib.hero import Hero
 from lib.goblin import Goblin
+from lib.zombie import Zombie
 
 cloud = Hero(100, 30, 'Cloud')
 goblin = Goblin(40, 10)
-
+zombie = Zombie(50, 10, 'Zombie')
 
 def main():
     # hero_health = cloud.health
@@ -19,13 +20,14 @@ def main():
     # goblin_health = goblin.health
     # goblin_power = goblin.power
 
-    while cloud.is_alive(cloud) and goblin.is_alive(goblin):
+    while cloud.is_alive(cloud) and goblin.is_alive(goblin) and zombie.is_alive(zombie):
         print(cloud.print_status(cloud))
+        print(zombie.print_status(zombie))
         print(goblin.print_status(goblin))
         print()
         print("What do you want to do?")
         print("1. fight goblin")
-        print("2. do nothing")
+        print("2. fight Zombie?")
         print("3. flee")
         print("> ",)
         user_input = input()
@@ -36,7 +38,8 @@ def main():
             if goblin.is_alive(goblin) == False:
                 print("The goblin is dead.")
         elif user_input == "2":
-            pass
+            cloud.attack(cloud, zombie)
+            zombie.immortality()
         elif user_input == "3":
             print("Goodbye.")
             break
