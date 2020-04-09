@@ -31,8 +31,22 @@ class Character(object):
         print("%s has %d health and %d power." % (self.name, self.health, self.power))
 
 class Hero(Character):
-    def __init__(self, name):
-        super().__init__(name)    
+    # def __init__(self, name, health):
+    #     super().__init__(name)
+    #     super().__init__(health)    
+    
+    def double_attack(self, target):
+        attack1 = 1
+        while attack1 <= 1:
+            random_number = random.randint(0, 4)
+            if random_number == 1:
+                self.power = self.power * 2
+            else:
+                self.power = 5
+            super().attack(target)
+            attack1 += 1
+            
+        
 
     def restore(self):
         self.health = 10
@@ -43,9 +57,20 @@ class Hero(Character):
         self.coins -= item.cost
         item.apply(hero)
 
+
+
+
+
+
+
 class Goblin(Character):
     def __init__(self, name):
-        super().__init__(name, 6, 2, 0)
+        super().__init__(name, 50, 2, 0)
+
+
+
+
+
 
 class Wizard(Character):
     def __init__(self, name):
@@ -60,14 +85,27 @@ class Wizard(Character):
         if swap_power:
             self.power, enemy.power = enemy.power, self.power
 
+
+class Medic(Character):
+    pass
+
+
+class Shadow(Character):
+    pass
+
+class Zombie(Character):
+    pass
+
+
 class Battle:
     def do_battle(self, hero, enemy):
         print("=====================")
         print("%s faces the %s" % (hero.name, enemy.name))
         print("=====================")
-        while hero.is_alive() and enemy.is_alive():
+        while hero.is_alive() and enemy.is_alive() and chopper.is_alive():
             hero.print_status()
             enemy.print_status()
+            chopper.print_status()
             time.sleep(1.5)
             print("-----------------------")
             print("What do you want to do?")
@@ -77,7 +115,7 @@ class Battle:
             print("> ",)
             user_input = int(input())
             if user_input == 1:
-                hero.attack(enemy)
+                hero.double_attack(enemy)
             elif user_input == 2:
                 pass
             elif user_input == 3:
@@ -94,6 +132,11 @@ class Battle:
             print("YOU LOSE!")
             return False
 
+
+
+
+
+
 class Tonic:
     cost = 5
     name = 'tonic'
@@ -101,12 +144,23 @@ class Tonic:
         character.health += 2
         print("%s's health increased to %d." % (character.name, character.health))
 
+
+
+
+
+
+
 class Sword:
     cost = 10
     name = 'sword'
     def apply(self, hero):
         hero.power += 2
         print("%s's power increased to %d." % (hero.name, hero.power))
+
+
+
+
+
 
 class Store:
     # If you define a variable in the scope of a class:
@@ -132,7 +186,12 @@ class Store:
                 item = ItemToBuy()
                 hero.buy(item)
 
-hero = Hero('Oakley')
+
+
+
+
+hero = Hero('Oakley', 50)
+chopper = Medic('Chopper', 30, 5)
 enemies = [Goblin('Bob'), Wizard('Jethro')]
 battle_engine = Battle()
 shopping_engine = Store()
