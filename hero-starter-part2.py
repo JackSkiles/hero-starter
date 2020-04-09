@@ -40,7 +40,7 @@ class Hero(Character):
         while attack1 <= 1:
             random_number = random.randint(0, 4)
             if random_number == 1:
-                self.power = self.power * 2
+                self.power = 10
             else:
                 self.power = 5
             super().attack(target)
@@ -65,7 +65,7 @@ class Hero(Character):
 
 class Goblin(Character):
     def __init__(self, name):
-        super().__init__(name, 50, 2, 0)
+        super().__init__(name, 10, 2, 0)
 
 
 
@@ -87,11 +87,21 @@ class Wizard(Character):
 
 
 class Medic(Character):
-    pass
+    def heal(self):
+        random_heal = random.randint(0, 4)
+        if random_heal == 1:
+            self.health += 2
+            print(f'{chopper.name} has healed 2 damage')
+
 
 
 class Shadow(Character):
-    pass
+    def dodge_attack(self):
+        dodge = random.randint(0, 10)
+        if dodge == 0 or dodge == 1 or dodge == 2 or dodge == 3 or dodge == 4 or dodge == 5 or dodge == 6 or dodge == 7 or dodge == 8 or dodge == 9:
+            self.health = 1
+            print(f'{self.name} doged the attack')
+
 
 class Zombie(Character):
     pass
@@ -116,6 +126,8 @@ class Battle:
             user_input = int(input())
             if user_input == 1:
                 hero.double_attack(enemy)
+                if enemy == shadow:
+                   shadow.dodge_attack()
             elif user_input == 2:
                 pass
             elif user_input == 3:
@@ -125,6 +137,9 @@ class Battle:
                 print("Invalid input %r" % user_input)
                 continue
             enemy.attack(hero)
+            enemy.attack(chopper)
+            chopper.heal()
+
         if hero.is_alive():
             print("You defeated the %s" % enemy.name)
             return True
@@ -192,7 +207,8 @@ class Store:
 
 hero = Hero('Oakley', 50)
 chopper = Medic('Chopper', 30, 5)
-enemies = [Goblin('Bob'), Wizard('Jethro')]
+shadow = Shadow('Shadow', 1, 10)
+enemies = [Goblin('Bob'), Wizard('Jethro'), shadow]
 battle_engine = Battle()
 shopping_engine = Store()
 
