@@ -92,19 +92,33 @@ class Medic(Character):
         if random_heal == 1:
             self.health += 2
             print(f'{chopper.name} has healed 2 damage')
+    def heal_friend(self, target):
+        target.health += 5
+        print(f'{self.name} has healed {hero.name} by 5 points!')
+
+    def raise_dead(self, target):
+        if target == evil_dead:
+            target.health = 0
+            print(f'{self.name} Cast raise on {target.name}! {target.name} has become one of the living again.')
+        else:
+            print(f'raise does nothing on already living beings.')
 
 
 
 class Shadow(Character):
     def dodge_attack(self):
         dodge = random.randint(0, 10)
-        if dodge == 0 or dodge == 1 or dodge == 2 or dodge == 3 or dodge == 4 or dodge == 5 or dodge == 6 or dodge == 7 or dodge == 8 or dodge == 9:
+        if dodge != 1:
             self.health = 1
             print(f'{self.name} doged the attack')
 
 
 class Zombie(Character):
-    pass
+    def immortality(self):
+        if self.health <= 0:
+            self.health = 5
+            print('you cannot kill a zombie')
+        
 
 
 class Battle:
@@ -120,17 +134,32 @@ class Battle:
             print("-----------------------")
             print("What do you want to do?")
             print("1. fight %s" % enemy.name)
-            print("2. do nothing")
+            print("2. Chopper healing")
             print("3. flee")
+            print("4. run away")
             print("> ",)
             user_input = int(input())
+
+            if enemy == evil_dead:
+                user_input2 = int(input())
+                print("you are facing evil dead. What would you like to do?")
+                print("1. Attack Enemy")
+                print("2 Cast raise on enemy")
+                if user_input2 == 1:
+                    hero.double_attack(enemy)
+                    evil_dead.immortality()
+                elif user_input2 == 2:
+                    chopper.raise_dead(evil_dead)
             if user_input == 1:
                 hero.double_attack(enemy)
                 if enemy == shadow:
                    shadow.dodge_attack()
+            
             elif user_input == 2:
-                pass
+                chopper.heal_friend(hero)
             elif user_input == 3:
+                pass
+            elif user_input == 4:
                 print("Goodbye.")
                 exit(0)
             else:
@@ -208,7 +237,8 @@ class Store:
 hero = Hero('Oakley', 50)
 chopper = Medic('Chopper', 30, 5)
 shadow = Shadow('Shadow', 1, 10)
-enemies = [Goblin('Bob'), Wizard('Jethro'), shadow]
+evil_dead = Zombie('Evil Dead', 5, 5)
+enemies = [Goblin('Bob'), Wizard('Jethro'), evil_dead, shadow]
 battle_engine = Battle()
 shopping_engine = Store()
 
